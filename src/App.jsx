@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [save, setsave] = useState(null);
+  const [save, setsave] = useState();
   const [search, setSearch] = useState(null);
 
   const fetchData = async () => {
@@ -12,7 +12,7 @@ function App() {
       );
       console.log(response.data.data.results[0]);
       console.log(response.data.data.results[0].downloadUrl[4].url);
-      const url = response.data.data.results[0].downloadUrl[4].url;
+      const url = response.data.data.results[0];
       setsave(url);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -32,7 +32,17 @@ function App() {
       >
         search
       </button>
-      <audio src={save} controls autoPlay></audio>
+      {save && (
+        <div className="w-full flex flex-col items-center justify-center gap-5">
+          <img
+            src={save.image[2].url}
+            className="rounded-4xl"
+            width={200}
+            alt=""
+          />
+          <audio src={save.downloadUrl[4].url} controls autoPlay></audio>
+        </div>
+      )}
     </div>
   );
 }
