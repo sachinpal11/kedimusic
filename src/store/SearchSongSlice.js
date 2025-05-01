@@ -7,9 +7,16 @@ import axios from "axios";
 export const searchSongsThunk = createAsyncThunk("songSearchThunk"
   , async (data) => {
     const response = await axios.get(`https://saavn.dev/api/search/songs?query=${data}`);
-    const SearchResults = response.data.data.results;
-    console.log(SearchResults);
-    return SearchResults;
+
+    let newData = [];
+    const SearchResults = () => {
+      for (var i = 0; i < 3; i++) {
+        newData.push(response.data.data.results[i]);
+      }
+    }
+    SearchResults();
+    console.log(newData);
+    return newData;
   }
 )
 
@@ -39,5 +46,6 @@ const searchSongSlice = createSlice({
       })
   }
 })
+
+
 export default searchSongSlice.reducer;
-// export const { search } = searchSongSlice.actions;
