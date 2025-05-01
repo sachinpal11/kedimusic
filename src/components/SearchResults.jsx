@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleSong } from "../store/CurrentSong";
+import { useParams } from "react-router";
+import { searchSongsThunk } from "../store/SearchSongSlice";
 
 function SearchResults() {
+  const { search } = useParams();
   const results = useSelector((state) => state.searchsong.results);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(results);
-  }, [results]);
+    dispatch(searchSongsThunk(search));
+  }, [search]);
 
   const handleCurrentSong = (item) => {
     console.log(item);
@@ -18,7 +21,7 @@ function SearchResults() {
       {results &&
         results.map((item) => (
           <div
-            className="flex rounded-xl items-center text-neutral-400 w-[80%] md:w-[45%] overflow-hidden bg-neutral-900"
+            className="flex rounded-xl items-center text-neutral-400 w-[95%] md:w-[45%] overflow-hidden bg-neutral-900"
             key={item.id}
             onClick={() => handleCurrentSong(item)}
           >
